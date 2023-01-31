@@ -7,6 +7,8 @@ import { config } from "dotenv";
 
 import { IDL } from "./wrapper";
 
+config();
+
 function accountsToMeta(context: Awaited<ReturnType<DeBridgeSolanaClient["buildSendContext"]>>["accounts"]) {
   const result: AccountMeta[] = [
     { isSigner: false, isWritable: true, pubkey: new PublicKey(context.bridgeCtx.bridge) },
@@ -68,7 +70,6 @@ async function buildSendIx(
 }
 
 async function main() {
-  config({ path: "./src/.env" });
   const wallet = new helpers.Wallet(Keypair.fromSecretKey(helpers.hexToBuffer(process.env.WALLET!)));
   const connection = new Connection(process.env.RPC || clusterApiUrl("mainnet-beta"));
   const deBridgeWrapper = new Program(
