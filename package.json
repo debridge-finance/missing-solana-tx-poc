@@ -12,7 +12,7 @@
   "dependencies": {
     "@coral-xyz/anchor": "0.26.0",
     "@debridge-finance/solana-contracts-client": "1.2.0",
-    "@debridge-finance/solana-utils": "2.3.0",
+    "@debridge-finance/solana-utils": "3.0.0",
     "@solana/web3.js": "1.73.1",
     "dotenv": "16.0.3"
   },
@@ -27,6 +27,7 @@
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-prettier": "^4.2.1",
     "ts-node": "^10.9.1",
+    "tslib": "^2.5.0",
     "typescript": "^4.9.5"
   }
 }
