@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "poc": "node -r ts-node/register ./src/index.ts"
+    "poc": "node -r ts-node/register ./src/index.ts",
+    "stats": "node -r ts-node/register ./src/stats.ts"
   },
   "author": "",
   "license": "ISC",

@@ -1,4 +1,4 @@
-import { Commitment, Connection, Keypair, MessageV0, PublicKey, Transaction, VersionedTransaction } from "@solana/web3.js";
+import { AddressLookupTableAccount, AddressLookupTableState, Commitment, Connection, Keypair, MessageAddressTableLookup, MessageCompiledInstruction, MessageV0, NonceAccount, NONCE_ACCOUNT_LENGTH, PublicKey, SystemProgram, Transaction, TransactionInstruction, VersionedMessage, VersionedTransaction } from "@solana/web3.js";
 import { helpers, interfaces } from "@debridge-finance/solana-utils";
 
 type AnyTransaction = VersionedTransaction | Transaction;
@@ -8,21 +8,20 @@ function isVersionedTx(arg: any): arg is VersionedTransaction {
     return "version" in arg;
 }
 
-async function sendWithRetries(connection: Connection, serialized: Buffer, lastValidBlockHeight: number, timesToSend: number = 5, blockhashCommitment: Commitment = "finalized") {
+async function sendWithRetries(connection: Connection, serialized: Buffer, lastValidBlockHeight: number | null, timesToSend: number = 5, blockhashCommitment: Commitment = "finalized") {
     const txId = await connection.sendRawTransaction(serialized, {
-        skipPreflight: true,
+        skipPreflight: false,
         maxRetries: 1000,
     });
-    let blockheight = await connection.getBlockHeight();
-    let sent = 0;
-    while (blockheight < lastValidBlockHeight && sent < timesToSend) {
+    let sent = 1;
+    const validBlockheight = (current: number) => lastValidBlockHeight !== null ? current < lastValidBlockHeight : true;
+    while (validBlockheight(await connection.getBlockHeight()) && sent < timesToSend) {
         await connection.sendRawTransaction(serialized, {
-            skipPreflight: true,
+            skipPreflight: false,
             preflightCommitment: blockhashCommitment,
             maxRetries: 100,
         });
         await sleep(300);
-        blockheight = await connection.getBlockHeight();
         sent += 1;
     }
     return txId;
