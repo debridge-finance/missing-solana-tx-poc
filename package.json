@@ -12,7 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "@coral-xyz/anchor": "0.26.0",
-    "@debridge-finance/solana-contracts-client": "1.2.0",
+    "@debridge-finance/solana-contracts-client": "6.2.1",
     "@debridge-finance/solana-utils": "3.0.0",
     "@solana/web3.js": "1.73.1",
     "dotenv": "16.0.3"
